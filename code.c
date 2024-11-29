@@ -1,3 +1,5 @@
+#include <iostream>
+
 //header files
 #include<stdio.h>
 #include<conio.h>
@@ -10,25 +12,29 @@ void xy(int ,int );
 
 // functions
 void adminPanellogin();
+void adminPanel();
+
 void assignTeacher();
 void updateTeacherInfo();
 void addStud();
 void updateStudInfo();
 void assignCourse();
 
+
 void teachersPanellogin();
-void teachersPanel();
+void teacherPanel();
+
 void provideCTm();
 void findStud();
 void countStud();
 
 void studentsPanellogin();
-void studentsPanel();
+void studentPanel();
 
 
 // global values
 char adminUsername[10]="PANTHO";
-char adminPassword[5] = "12345";
+char adminPassword[6] = "12345";
 char tcName[20]="";
 char stName[20]="";
 
@@ -744,7 +750,7 @@ void provideCTm()
     rewind(c);
     while(fread(&crs,sizeof(crs),1,c)){
         if(strcmp(crs.teacher,tcName)==0){
-            strcpy((course+n),crs.c_name);
+            strcpy(course[n], crs.c_name);
             n++;
         }
     }
@@ -752,10 +758,10 @@ void provideCTm()
 
     for(int i=0;i<n;i++){
         for(int j=i+1;j<n;j++){
-            if(strcmp((course+i),(course+j))==0){
+           if (strcmp(course[i], course[j]) == 0) {
                 int d=j;
                 while(d<n){
-                  strcpy((course+d),(course+d+1));
+                  strcpy(course[d], course[d + 1]);
                   d++;
                 }
                 --j;
@@ -772,7 +778,7 @@ void provideCTm()
     printf("For which course you would like to give CT marks ?\n");
     for(int i=0;i<n;i++){
         xy(25,13+i);
-        printf("%d. %s\n",i+1,course+i);
+        printf("%d. %s\n",i+1,course[i]);
         y=16+i;
     }
 
@@ -791,7 +797,7 @@ void provideCTm()
 
     char tmpCrs[30]="", filename[34]="" ;
 
-    strcpy(tmpCrs,(course+s-1));
+    strcpy(tmpCrs,course[s-1]);
     strcpy(filename,tmpCrs);
     strcat(filename,"-");
     strcat(filename,tcName);
@@ -863,7 +869,7 @@ void findStud()
     rewind(c);
     while(fread(&crs,sizeof(crs),1,c)){
         if(strcmp(crs.teacher,tcName)==0){
-            strcpy((course+n),crs.c_name);
+            strcpy(course[n], crs.c_name);
             n++;
         }
     }
@@ -871,10 +877,10 @@ void findStud()
 
     for(int i=0;i<n;i++){
         for(int j=i+1;j<n;j++){
-            if(strcmp((course+i),(course+j))==0){
+            if(strcmp((course[i]),(course[j]))==0){
                 int d=j;
                 while(d<n){
-                  strcpy((course+d),(course+d+1));
+                  strcpy((course[d]),(course[d+1]));
                   d++;
                 }
                 --j;
@@ -891,7 +897,7 @@ void findStud()
     printf("From which course you want to find student ? \n");
     for(int i=0;i<n;i++){
         xy(25,13+i);
-        printf("%d. %s\n",i+1,course+i);
+        printf("%d. %s\n",i+1,course[i]);
         y=16+i;
     }
 
@@ -909,7 +915,7 @@ void findStud()
     }
 
     char tmpCrs[30]="";
-    strcpy(tmpCrs,(course+s-1));
+    strcpy(tmpCrs,(course[s-1]));
 
     system("cls");
 
@@ -928,7 +934,7 @@ void findStud()
                 fflush(stdin);
                 xy(20,y);
                 printf("%d \t %s",i,crs.student);
-                strcpy((allstd+i-1),crs.student);
+                strcpy((allstd[i-1]),crs.student);
                 y++;;
                 i++;
             }
@@ -949,7 +955,7 @@ void findStud()
     }
 
     char tmpStud[20]="" ;
-    strcpy(tmpStud,allstd+p-1);
+    strcpy(tmpStud,allstd[p-1]);
 
 
 
@@ -1011,7 +1017,7 @@ void countStud()
     rewind(c);
     while(fread(&crs,sizeof(crs),1,c)){
         if(strcmp(crs.teacher,tcName)==0){
-            strcpy((course+n),crs.c_name);
+            strcpy((course[n]),crs.c_name);
             n++;
         }
     }
@@ -1019,10 +1025,10 @@ void countStud()
 
     for(int i=0;i<n;i++){
         for(int j=i+1;j<n;j++){
-            if(strcmp((course+i),(course+j))==0){
+            if(strcmp((course[i]),(course[j]))==0){
                 int d=j;
                 while(d<n){
-                  strcpy((course+d),(course+d+1));
+                  strcpy((course[d]),(course[d+1]));
                   d++;
                 }
                 --j;
@@ -1039,7 +1045,7 @@ void countStud()
     printf("For which course you would like to Count Students ?\n");
     for(int i=0;i<n;i++){
         xy(25,13+i);
-        printf("%d. %s\n",i+1,course+i);
+        printf("%d. %s\n",i+1,course[i]);
         y=16+i;
     }
 
@@ -1058,7 +1064,7 @@ void countStud()
 
     char tmpCrs[30]="";
 
-    strcpy(tmpCrs,(course+s-1));
+    strcpy(tmpCrs,(course[s-1]));
 
     FILE *cr;
     cr=fopen("course.txt","rb");
@@ -1191,7 +1197,7 @@ void studentPanel()
     rewind(c);
     while(fread(&crs,sizeof(crs),1,c)){
         if(strcmp(crs.student,stName)==0){
-            strcpy((course+n),crs.c_name);
+            strcpy((course[n]),crs.c_name);
             n++;
         }
     }
@@ -1199,10 +1205,10 @@ void studentPanel()
 
     for(int i=0;i<n;i++){
         for(int j=i+1;j<n;j++){
-            if(strcmp((course+i),(course+j))==0){
+            if(strcmp((course[i]),(course[j]))==0){
                 int d=j;
                 while(d<n){
-                  strcpy((course+d),(course+d+1));
+                  strcpy((course[d]),(course[d+1]));
                   d++;
                 }
                 --j;
@@ -1216,7 +1222,7 @@ void studentPanel()
     int y;
     for(int i=0;i<n;i++){
         xy(29,19+i);
-        printf("%d. %s\n",i+1,course+i);
+        printf("%d. %s\n",i+1,course[i]);
         y=21+i;
     }
 
@@ -1244,7 +1250,7 @@ void studentPanel()
 
     char tmpCrs[30]="";
 
-    strcpy(tmpCrs,(course+s-1));
+    strcpy(tmpCrs,(course[s-1]));
 
     y=15;
     n=0;
@@ -1258,7 +1264,7 @@ void studentPanel()
         int b=(strcmp(crs.student,stName)==0);
         if(a && b)
         {
-            strcpy(trs+n,crs.teacher);
+            strcpy(trs[n],crs.teacher);
             n++;
         }
     }
@@ -1266,10 +1272,10 @@ void studentPanel()
 
     for(int i=0;i<n;i++){
         for(int j=i+1;j<n;j++){
-            if(strcmp((trs+i),(trs+j))==0){
+            if(strcmp((trs[i]),(trs[j]))==0){
                 int d=j;
                 while(d<n){
-                  strcpy((trs+d),(trs+d+1));
+                  strcpy((trs[d]),(trs[d+1]));
                   d++;
                 }
                 --j;
@@ -1284,7 +1290,7 @@ void studentPanel()
         char sir[30]="";
         strcpy(sir,tmpCrs);
         strcat(sir,"-");
-        strcat(sir,trs+i);
+        strcat(sir,trs[i]);
         strcat(sir,".txt");
 
         FILE *resul;
